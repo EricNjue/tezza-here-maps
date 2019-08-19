@@ -1,0 +1,17 @@
+﻿@{
+    if (ViewData["ShowRoute"] == null)
+    {
+        <b>Select location by clicking on the map</b>
+    }
+
+    if (ViewData["ActiveCollection"] != null)
+    {
+        <b>@ViewData["ActiveCollection"]</b>
+    }
+}
+
+<div style="width: 640px; height: 680px" id="mapContainer"></div>
+<br/>
+<div>
+    <button id="btnClearMap" onclick="clearMap()" class="btn btn-sm btn-outline-warning">CLEAR MAP</button>
+</div>

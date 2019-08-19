@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TezzaBizSolution.Web</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+    <script src="http://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript"></script>
+    <script src="http://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TezzaBizSolution.Web</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Collections" asp-action="Index">Collections</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Locations" asp-action="Index">Locations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Maps" asp-action="Index">Routes</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 - TezzaBizSolution.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    <script>
+         // Initialize the platform object:
+    var platform = new H.service.Platform({
+        'apikey': '@ViewData["JavaScriptApiKey"]',
+        'app_id': '@ViewData["AppID"]',
+        'app_code': '@ViewData["AppCode"]',
+        'useHTTPS': false
+    });
+
+    // Obtain the default map types from the platform object
+        var maptypes = platform.createDefaultLayers();
+
+         var ui;
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+        document.getElementById('mapContainer'),
+        maptypes.vector.normal.map,
+        {
+            zoom: 14,
+            center: { lng: 36.807136, lat: -1.270521 }
+        });
+
+        // Enable the event system on the map instance:
+        var mapEvents = new H.mapevents.MapEvents(map);
+         // Get the default map types from the Platform object:
+        var defaultLayers = platform.createDefaultLayers();
+
+        // Create the default UI:
+        ui = H.ui.UI.createDefault(map, defaultLayers);
+
+        // Add event listener:
+        map.addEventListener('tap', function (evt) {
+            var coord = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
+            console.log("COOrdinates: " + coord);
+            console.log("Lat: " + coord.lat + " | Lng: " + coord.lng);
+            console.log('Clicked at ' + Math.abs(coord.lat.toFixed(4)) + ((coord.lat > 0) ? 'N' : 'S') + ' ' + Math.abs(coord.lng.toFixed(4)) + ((coord.lng > 0) ? 'E' : 'W'));
+
+            var data = [{
+                latitude: coord.lat,
+                longitude: coord.lng
+            }];
+
+
+                if (@ViewData["ShowRoute"]?.ToString().ToLower()==="false") {
+                    clearMap();
+                    addInfoBubble(map, data);
+                }
+
+
+            $("#latitude").val(coord.lat);
+            $("#longitude").val(coord.lng);
+        });
+
+         // add a resize listener to make sure that the map occupies the whole container
+        window.addEventListener('resize', () => map.getViewPort().resize());
+
+        var behavior = new H.mapevents.Behavior(mapEvents);
+
+        function clearMap() {
+            // clear the map...
+            ui.getBubbles().forEach(bub => ui.removeBubble(bub));
+            group.removeAll();
+         }
+
+        function showPointsOnMap(collectionId) {
+            console.log("Collection ID is: " + collectionId);
+
+            $.ajax({
+                url: '/api/maps/' + collectionId,
+                type: 'GET',
+                data: {},
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    console.log(data);
+                    clearMap();
+                    addInfoBubble(map, data);
+                },
+                error: function () {
+                    alert("error in processing the request");
+                }
+            });
+        }
+
+         // Define a callback function to process the routing response:
+         var onResult = function(result) {
+             var route,
+                 routeShape,
+                 startPoint,
+                 endPoint,
+                 linestring;
+             if(result.response.route) {
+                 // Pick the first route from the response:
+                 route = result.response.route[0];
+                 // Pick the route's shape:
+                 routeShape = route.shape;
+
+                 // Create a linestring to use as a point source for the route line
+                 linestring = new H.geo.LineString();
+
+                 // Push all the points in the shape into the linestring:
+                 routeShape.forEach(function(point) {
+                     var parts = point.split(',');
+                     linestring.pushLatLngAlt(parts[0], parts[1]);
+                 });
+
+                 // Retrieve the mapped positions of the requested waypoints:
+                 startPoint = route.waypoint[0].mappedPosition;
+                 endPoint = route.waypoint[1].mappedPosition;
+
+                 // Create a polyline to display the route:
+                 var routeLine = new H.map.Polyline(linestring, {
+                     style: { strokeColor: 'blue', lineWidth: 3 }
+                 });
+
+                 // Create a marker for the start point:
+                 var startMarker = new H.map.Marker({
+                     lat: startPoint.latitude,
+                     lng: startPoint.longitude
+                 });
+
+                 // Create a marker for the end point:
+                 var endMarker = new H.map.Marker({
+                     lat: endPoint.latitude,
+                     lng: endPoint.longitude
+                 });
+
+                 // Add the route polyline and the two markers to the map:
+                 map.addObjects([routeLine, startMarker, endMarker]);
+
+                 // Set the map's viewport to make the whole route visible:
+                 map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
+             }
+         };
+
+         function showRoute(collectionId) {
+             console.log("Collection ID is: " + collectionId);
+             $.ajax({
+                 url: '/api/maps/GetRoute/' + collectionId,
+                 type: 'GET',
+                 data: {},
+                 contentType: 'application/json; charset=utf-8',
+                 success: function(data) {
+                     console.log(data);
+                     var source = data.source;
+                     var destination = data.destination;
+
+                     // clear the map...
+                     clearMap();
+
+                     // draw the route ...
+                     // Create the parameters for the routing request:
+                     var routingParameters = {
+                         // The routing mode:
+                         'mode': 'fastest;car',
+                         // The start point of the route:
+                         'waypoint0': 'geo!'+source.latitude+','+source.longitude,
+                         // The end point of the route:
+                         'waypoint1': 'geo!' + destination.latitude + ',' + destination.longitude,
+                         // To retrieve the shape of the route we choose the route
+                         // representation mode 'display'
+                         'representation': 'display'
+                     };
+
+                     // Get an instance of the routing service:
+                     var router = platform.getRoutingService();
+
+                     // Call calculateRoute() with the routing parameters,
+                     // the callback and an error callback function (called if a
+                     // communication error occurs):
+                     router.calculateRoute(routingParameters, onResult,
+                         function(error) {
+                             alert(error.message);
+                         });
+                 },
+                 error: function () {
+                     alert("error in processing the request");
+                 }
+             });
+         }
+
+         function addMarkerToGroup(group, coordinate, html) {
+             var marker = new H.map.Marker(coordinate);
+             // add custom data to the marker
+             marker.setData(html);
+             group.addObject(marker);
+        }
+
+        var group = new H.map.Group();
+
+         function addInfoBubble(map,data) {
+             map.addObject(group);
+
+             // add 'tap' event listener, that opens info bubble, to the group
+             group.addEventListener('tap', function (evt) {
+                 // event target is the marker itself, group is a parent event target
+                 // for all objects that it contains
+                 if (evt.target.getGeometry()!=null) {
+                     var bubble =  new H.ui.InfoBubble(evt.target.getGeometry(), {
+                         // read custom data
+                         content: evt.target.getData()
+                     });
+                     // show info bubble
+                     ui.addBubble(bubble);
+                 }
+
+             }, false);
+
+
+             $.each(data, function (index, coordinate)
+             {
+                 console.log(coordinate.latitude + " | " + coordinate.longitude + " | " + coordinate.name + " | " + coordinate.description);
+
+                 var bubble = new H.ui.InfoBubble({ lng: coordinate.longitude, lat: coordinate.latitude }, {
+                     content: coordinate.name
+                 });
+
+                 addMarkerToGroup(group, { lat: coordinate.latitude, lng: coordinate.longitude }, coordinate.name);
+             });
+         }
+
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

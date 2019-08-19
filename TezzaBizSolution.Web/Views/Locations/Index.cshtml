@@ -1,0 +1,60 @@
+﻿@model IEnumerable<TezzaBizSolution.Lib.Models.Location>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+
+    <p>
+        <a class="btn-outline-primary btn-sm btn" asp-action="Create">Create New Location</a>
+    </p>
+    <table class="table table-sm table-striped table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Latitude)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Longitude)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Collection)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Latitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Longitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Collection.Name)
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a class="btn btn-sm btn-outline-success" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

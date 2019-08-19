@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TezzaBizSolution.Web", "TezzaBizSolution.Web\TezzaBizSolution.Web.csproj", "{59A23EA7-AE97-451A-9762-EC6F3DA5609A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TezzaBizSolution.Lib", "TezzaBizSolution.Lib\TezzaBizSolution.Lib.csproj", "{2E3DA3B0-A781-438C-BDF0-3771620BA8DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59A23EA7-AE97-451A-9762-EC6F3DA5609A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59A23EA7-AE97-451A-9762-EC6F3DA5609A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59A23EA7-AE97-451A-9762-EC6F3DA5609A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59A23EA7-AE97-451A-9762-EC6F3DA5609A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E3DA3B0-A781-438C-BDF0-3771620BA8DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3DA3B0-A781-438C-BDF0-3771620BA8DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3DA3B0-A781-438C-BDF0-3771620BA8DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3DA3B0-A781-438C-BDF0-3771620BA8DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F55D8EAF-A2F9-42A6-8E2C-2B51FE71B733}
+	EndGlobalSection
+EndGlobal
