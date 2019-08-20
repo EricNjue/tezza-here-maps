@@ -12,7 +12,6 @@
 
                         <th>Name</th>
                         <th>&nbsp;</th>
-                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,11 +21,19 @@
                         {
                             <tr>
                                 <td>@collection.Name</td>
+
                                 <td>
-                                    <input type="button" id="btnShowRoute" onclick="showRoute(@collection.Id)" class="btn btn-sm btn-outline-primary" value="Show Route" />
-                                </td>
-                                <td>
-                                    <input type="button" id="btnShowPointsOnMap" onclick="showPointsOnMap(@collection.Id)" class="btn btn-sm btn-outline-success" value="Show Points On Map" />
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <button type="button" id="btnShowRoute" onclick="showRoute(@collection.Id)" data-toggle="tooltip" data-placement="top" title="Show Route" class="btn btn-outline-info">
+                                            <i class="fas fa-route"></i>
+                                        </button>
+                                        <button type="button" id="btnShowPointsOnMap" onclick="showPointsOnMap(@collection.Id)" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Show points on map">
+                                            <i class="fas fa-map-marked-alt"></i>
+                                        </button>
+                                        <a class="btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="View collection coordinates" asp-action="ViewCollectionPoints" asp-route-collectionId="@collection.Id">
+                                            <i class="fas fa-shoe-prints"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         }

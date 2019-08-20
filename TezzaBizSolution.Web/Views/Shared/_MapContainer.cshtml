@@ -1,5 +1,5 @@
 ﻿@{
-    if (ViewData["ShowRoute"] == null)
+    if ((bool)ViewData["ShowRoute"] == false)
     {
         <b>Select location by clicking on the map</b>
     }
@@ -11,7 +11,4 @@
 }
 
 <div style="width: 640px; height: 680px" id="mapContainer"></div>
-<br/>
-<div>
-    <button id="btnClearMap" onclick="clearMap()" class="btn btn-sm btn-outline-warning">CLEAR MAP</button>
-</div>
+

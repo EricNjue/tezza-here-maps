@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -37,6 +38,15 @@ namespace TezzaBizSolution.Web.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> ViewCollectionPoints(int collectionId)
+        {
+            ViewData["Collection"] = await _context.Collections.FirstOrDefaultAsync(f => f.Id == collectionId);
+
+            var coordinates = await _context.Locations.Where(w => w.CollectionId == collectionId).ToListAsync();
+
+            return View(coordinates);
         }
     }
 }

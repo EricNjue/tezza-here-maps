@@ -1,0 +1,40 @@
+﻿@model List<TezzaBizSolution.Lib.Models.Location>
+
+@{
+    var collection = (TezzaBizSolution.Lib.Models.Collection)ViewData["Collection"];
+
+    <div class="container">
+        <blockquote class="blockquote">
+            <p class="mb-0">@collection?.Name coordinates collection</p>
+            <footer class="blockquote-footer">List of GPS route coordinates for @collection?.Name </footer>
+        </blockquote>
+       
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-sm table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td> @item.Id</td>
+                            <td> @item.Name</td>
+                            <td> @item.Latitude</td>
+                            <td> @item.Longitude</td>
+                            <td> @item.Description</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
